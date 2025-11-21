@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Jersey 25", sans-serif;
+            background: linear-gradient(to bottom, #0F2B45, #1B4469);
+            background-attachment: fixed;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header and Navigation */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5rem;
+            background-color: rgba(166, 192, 215, 0.7); /* New color: #A6C0D7 with transparency */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header.scrolled {
+            background-color: rgba(166, 192, 215, 0.95); /* New color, more opaque on scroll */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 3rem; /* Made logo bigger */
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .logo .logo-image {
+            height: 4rem; /* Match font-size of ECHO text */
+            vertical-align: middle; /* Align with text */
+            margin: -5px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            font-size: 1.7rem; /* Made nav links bigger */
+            text-decoration: none;
+            display: inline-block; /* Allows transform to work correctly */
+            color: #000000;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.2s ease-out;
+            position: relative; /* Needed for the underline pseudo-element */
+            padding-bottom: 5px; /* Space for the underline */
+        }
+
+        /* Underline pseudo-element */
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #007bff;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: #B8AFAF;
+        }
+
+        .main-nav a:hover {
+            transform: translateY(-3px); /* The bounce effect */
+        }
+
+        .main-nav a:hover::after {
+            transform: scaleX(1);
+            background-color: #B8AFAF;
+            transform-origin: bottom center;
+        }
+
+        .main-nav a.active::after {
+            transform: scaleX(0); /* Ensure active link has no underline */
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 1001; /* Ensure it's above the nav */
+            background-color: transparent;
+            border: none;
+        }
+
+        .hamburger-menu .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hamburger-menu.active .bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger-menu.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Main Content Area */
+        .content-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center; /* Center the content horizontally */
+            align-items: flex-start; /* This is key. It aligns items to the top. */
+            flex-grow: 1; /* Allows this area to grow and fill available space */
+            padding: 2rem 5rem;
+        }
+
+        .hero-content {
+            max-width: 2100px; /* Widen the main content block */
+            width: 100%;
+            overflow: hidden; /* Clear the float */
+        }
+        .hero-text {
+            font-size: 4rem;
+            line-height: 1.1;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            color: #000000; /* Changed to white for visibility on dark background */
+        }
+
+        .sub-hero-text {
+            font-size: 2.5rem;
+            color: #000000; /* Changed to white for visibility on dark background */
+            margin-top: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-and-role {
+            margin-top: 0.5rem;
+        }
+
+        .name-text {
+            font-size: 3rem;
+            color: #82aaff; /* A nice shade of blue */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .role-text {
+            font-size: 2rem;
+            color: #B8AFAF; /* The specified gray color */
+            margin-left: 1rem;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .intro-text {
+            margin-top: 0.5rem;
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            max-width: 100%; /* Constrain width for better readability */
+            line-height: 1.6;
+        }
+
+        /* Typing animation styles */
+        .role-text {
+            border-right: 0.15em solid #B8AFAF; /* The cursor */
+            white-space: nowrap;
+            overflow: hidden;
+            animation: 
+                typing 2s steps(20, end),
+                blink-caret .75s step-end infinite,
+                color-change 4s infinite;
+        }
+
+        /* The typing effect */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* The typewriter cursor effect */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #B8AFAF; }
+        }
+
+        /* The color changing effect */
+        @keyframes color-change {
+            0%, 100% { color: #B8AFAF; } /* Gray */
+            25% { color: #82aaff; } /* Light Blue */
+            50% { color: #4d4dff; } /* Neon Blue */
+            75% { color: #B8AFAF; } /* Gray */
+        }
+
+
+        .video-container {
+            margin: .5rem auto 0; /* Keeps top margin, centers horizontally */
+            max-width: 50%;
+            width: 50%;
+            margin-bottom: -1rem;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .hero-image-container {
+            float: right;
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-pic {
+            width: 250px; /* Increased size for better balance */
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%; /* Changed to a circle */
+            border: 3px solid #000000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #000000;
+            color: #cccccc; /* Light gray for contrast */
+            padding: 1.5rem 0; /* Vertical padding, horizontal handled by inner div */
+            margin-top: auto; /* Pushes footer to the bottom */
+            font-size: 1.2rem;
+        }
+
+        .main-footer .footer-content {
+            max-width: 1100px; /* Match hero-content max-width */
+            margin: 0 auto; /* Center the content block */
+            padding: 0 5rem; /* Add horizontal padding inside the centered block */
+            text-align: center; /* Ensure text inside is centered within this block */
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 1rem 1.5rem;
+            }
+
+            /* Responsive layout for main content */
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 1rem;
+                gap: 2rem;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-image-container {
+                float: none; /* Disable float on mobile */
+                margin: 0 auto 1rem; /* Center the image */
+            }
+
+            .profile-pic {
+                width: 150px;
+                height: 150px;
+            }
+
+            .name-and-role {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .role-text {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+
+            .hero-text {
+                font-size: 3rem; /* Smaller font for mobile */
+                text-align: center;
+            }
+
+            .sub-hero-text {
+                color: #000000; /* Ensure white on mobile too */
+                text-align: center;
+            }
+
+            .video-container {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .main-footer .footer-content {
+                padding: 0 1rem; /* Adjust horizontal padding for mobile */
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .main-nav {
+                display: none; /* Hide nav by default on mobile */
+            }
+
+            .main-nav {
+                position: fixed;
+                top: 65px; /* Position it below the header */
+                right: -280px; /* Start off-screen to the right */
+                width: 280px;
+                border-radius: 8px;
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                transition: right 0.3s ease-in-out;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                padding: 1rem 0; /* Add some vertical padding */
+            }
+
+            .main-nav.active {
+                display: block; /* Show it when active */
+                right: 0; /* Slide in from the right */
+            }
+
+            .main-nav ul {
+                flex-direction: column; /* Keep this for mobile menu */
+                gap: 2rem;
+                font-size: 1.5rem;
+                text-align: left;
+                width: 100%;
+                padding: 1rem 2rem;
+            }
+        }
+
+        /* Desktop-specific styles for sticky header */
+        @media (min-width: 769px) {
+            /* Desktop-specific styles can go here if needed in the future */
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">
+            <a href="HomePage.html">
+                <img src="Media/PortfolioLogo.png" class="logo-image">ECHO
+            </a>
+        </div>
+        <button class="hamburger-menu" aria-label="Toggle navigation">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="HomePage.html" class="active">Home</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Skills.html">Skills</a></li>
+                <li><a href="Project.html">Project</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content-wrapper">
+        <div class="hero-content">
+            <div class="hero-image-container">
+                <img src="Media/ProfilePic.jpg" alt="Profile Picture" class="profile-pic">
+            </div>
+            <h1 class="hero-text">
+                Catch Every<br>Luck
+            </h1>
+            <p class="sub-hero-text">Hi I'm</p>
+            <div class="name-and-role">
+                <span class="name-text">Jericho Patrick M. Lagundino</span>
+                <span class="role-text"></span>
+            </div>
+            <p class="intro-text">I am a dedicated student who enjoys exploring many different things, especially in the field of Information Technology. 
+                I work hard to improve my skills and knowledge, and I enjoy learning through hands-on activities. I have a strong interest in technology,
+                from software to digital tools, and I love discovering new ideas while also enjoying food, games, and movies in my free time.</p>
+            <div class="video-container">
+                <video src="Media/Video.mp4" controls></video>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>© 2025 ECHO Portfolio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMenu = document.querySelector('.main-nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const header = document.querySelector('.main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Typing animation script
+        const roles = ["Programmer", "Web Developer", "Gamer"];
+        let roleIndex = 0;
+        let charIndex = 0;
+        const roleTextElement = document.querySelector('.role-text');
+        const typingSpeed = 100; // Time in ms between characters
+        const eraseSpeed = 50;   // Time in ms for erasing
+        const delayBetweenRoles = 2000; // Time in ms to wait before typing next role
+
+        function type() {
+            if (charIndex < roles[roleIndex].length) {
+                roleTextElement.textContent += roles[roleIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingSpeed);
+            } else {
+                setTimeout(erase, delayBetweenRoles);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                roleTextElement.textContent = roles[roleIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, eraseSpeed);
+            } else {
+                roleIndex = (roleIndex + 1) % roles.length;
+                setTimeout(type, typingSpeed);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (roles.length) {
+                setTimeout(type, delayBetweenRoles / 2);
+            }
+        });
+    </script>
+
+</body>
+</html>

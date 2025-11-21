@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Jersey 25", sans-serif;
+            background: linear-gradient(to bottom, #0F2B45, #1B4469);
+            background-attachment: fixed;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header and Navigation */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5rem;
+            background-color: rgba(166, 192, 215, 0.7); /* New color: #A6C0D7 with transparency */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header.scrolled {
+            background-color: rgba(166, 192, 215, 0.95); /* New color, more opaque on scroll */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 3rem; /* Made logo bigger */
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .logo .logo-image {
+            height: 4rem; /* Match font-size of ECHO text */
+            vertical-align: middle; /* Align with text */
+            margin: -5px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            font-size: 1.7rem; /* Made nav links bigger */
+            text-decoration: none;
+            display: inline-block; /* Allows transform to work correctly */
+            color: #000000;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.2s ease-out;
+            position: relative; /* Needed for the underline pseudo-element */
+            padding-bottom: 5px; /* Space for the underline */
+        }
+
+        /* Underline pseudo-element */
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #007bff;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: #B8AFAF;  
+        }
+
+        .main-nav a:hover {
+            transform: translateY(-3px); /* The bounce effect */
+        }
+
+        .main-nav a:hover::after {
+            transform: scaleX(1);
+            background-color: #B8AFAF;
+            transform-origin: bottom center;
+        }
+
+        .main-nav a.active::after {
+            transform: scaleX(0); /* Ensure active link has no underline */
+        }
+        
+        .main-content {
+            padding-left: 3rem;
+        }
+
+        .about-section {
+            width: 70%; /* Adjust this to make the line longer or shorter */
+            margin-left: 2rem;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-left: -1rem; /* Adjust to align content within the new section */
+        }
+
+        .page-title {
+            margin: 1rem;
+            font-size: 2.5rem;
+            color: #000000;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            margin-left: 2rem;
+        }
+
+        .profile-pic-container {
+            margin: 1rem;
+            margin-right: -1rem;
+        }
+
+        .profile-pic {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 25%;
+            border: 3px solid #000000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-left: 1rem;
+        }
+
+        .personal-info {
+            font-size: 1.8rem;
+            color: #4C52C9;
+            line-height: 1;
+            text-align: left;
+        }
+
+        .personal-info p {
+            margin: 0;
+        }
+
+        .styled-divider {
+            border: 0;
+            height: 1px;
+            width: 120%; /* Let the line fill its container */
+            background-color: #4C52C9;
+            margin: 1.5rem;
+        }
+
+        .styled-divider1 {
+            border: 0;
+            height: 1px;
+            width: 85%; /* Let the line fill its container */
+            background-color: #4C52C9;
+            margin: 1.5rem;
+            margin-left: 3rem;
+        }
+
+        .inspiration-section {
+            margin-left: 2rem;
+            margin-right: 2rem;
+        }
+
+        .inspiration-section h2 {
+            font-size: 2.2rem;
+            color: #000000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+        }
+
+        .inspiration-section p {
+            font-size: 1.5rem;
+            line-height: 1.3;
+            color: #B8AFAF;
+            min-height: 1.5rem; /* Ensures the paragraph is visible even when empty */
+            width: 80%;
+            margin-left: 2rem;           
+        }
+
+        .Education-section {
+            margin-left: 2rem;
+            margin-right: 2rem;
+        }
+
+        .Education-section h2 {
+            font-size: 2.2rem;
+            color: #000000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+        }
+
+        .Education-section p {
+            font-size: 1.5rem;
+            line-height: 1.3;
+            color: #B8AFAF;
+            min-height: 1.5rem; /* Ensures the paragraph is visible even when empty */
+            width: 100%;
+            margin-left: 2rem;           
+        }
+
+        .Philosophy-section {
+            margin-left: 2rem;
+            margin-right: 2rem;
+        }
+
+        .Philosophy-section h2 {
+            font-size: 2.2rem;
+            color: #000000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+        }
+
+        .Philosophy-section p {
+            font-size: 1.5rem;
+            line-height: 1.3;
+            color: #B8AFAF;
+            min-height: 1.5rem; /* Ensures the paragraph is visible even when empty */
+            width: 85%;
+            margin-left: 2rem;           
+        }
+
+
+        /* Footer */
+        .main-footer {
+            background-color: #000000;
+            color: #cccccc; /* Light gray for contrast */
+            text-align: center;
+            padding: 1.5rem 2rem;
+            margin-top: auto; /* Pushes footer to the bottom */
+            font-size: 1.2rem;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 1001;
+            background-color: transparent;
+            border: none;
+        }
+
+        .hamburger-menu .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hamburger-menu.active .bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger-menu.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .main-nav {
+                position: fixed;
+                top: 65px;
+                right: -280px;
+                width: 280px;
+                border-radius: 8px;
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                transition: right 0.3s ease-in-out;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                padding: 1rem 0;
+            }
+
+            .main-nav.active {
+                display: block;
+                right: 0;
+            }
+
+            .main-nav ul {
+                flex-direction: column; /* Keep this for mobile menu */
+                gap: 2rem;
+                font-size: 1.5rem;
+                text-align: left;
+                width: 100%;
+                padding: 1rem 2rem;
+            }
+
+
+            .about-section {
+                width: 90%; /* Make line wider on mobile */
+                margin-left: auto;
+                margin-right: auto;
+
+            }
+            .page-title {
+                font-family: "Jersey 25", sans-serif; /* Apply to mobile title too */
+                font-size: 2.5rem; /* Adjusted for mobile */
+                margin-left: -1rem;
+            }
+
+            .personal-info {
+                text-align: left;
+                font-size: 1.2rem;
+            }
+
+            .profile-pic {
+                width: 150px;
+                height: 150px;
+                margin-left: 0;
+            }
+
+            .about-content {
+                justify-content: center;
+            }
+
+            .inspiration-section {
+                margin-left: -0.4rem;
+                margin-right: 2rem;
+            }
+
+            .inspiration-section h2 {
+                font-size: 2.2rem;
+                color: #000000;
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+                margin-bottom: 1rem;
+                margin-left: -1rem;
+            }
+
+            .inspiration-section p {
+                font-size: 1.2rem;
+                line-height: 1.3;
+                color: #B8AFAF;
+                min-height: 1.5rem; /* Ensures the paragraph is visible even when empty */
+                width: 100%;
+                margin-left: 2rem;           
+            }
+
+            .Education-section h2 {
+                margin-left: -2rem;
+            }
+
+            .Education-section p {
+                font-size: 1.1rem;
+        
+            }
+
+            .Philosophy-section h2 {
+                margin-left: -2rem;
+            }
+
+            .-section p {
+                font-size: 1.2rem;
+        
+            }
+            
+            .styled-divider {
+                border: 0;
+                height: 1px;
+                background-color: #4C52C9;
+                margin: 2rem 0;
+                width: 80%; /* Ensure it fills the container on mobile */
+            }
+
+            .styled-divider1 {
+                border: 0;
+                height: 1px;
+                background-color: #4C52C9;
+                margin: 2rem 0;
+                width: 80%; /* Ensure it fills the container on mobile */
+            }
+
+        }
+
+        /* Desktop-specific styles for sticky header */
+        @media (min-width: 769px) {
+            /* Desktop-specific styles can go here if needed in the future */
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">
+            <a href="HomePage.html"><img src="Media/PortfolioLogo.png" class="logo-image">ECHO</a>
+        </div>
+        <button class="hamburger-menu" aria-label="Toggle navigation">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="About.html" class="active">About</a></li>
+                <li><a href="Skills.html">Skills</a></li>
+                <li><a href="Project.html">Project</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1 class="page-title">About Me</h1>
+        <div class="about-section">
+            <div class="about-content">
+                <div class="profile-pic-container">
+                    <img src="Media/ProfilePic.jpg" alt="Profile Picture" class="profile-pic">
+                </div>
+                <div class="personal-info">
+                    <p>Jericho Patrick M. Lagundino</p>
+                    <p>20 Years Old</p>
+                    <p>Male</p>
+                    <p>Single</p>
+                    <p>Filipino</p>
+                </div>
+            </div>
+            <hr class="styled-divider">
+        </div>
+        
+        <div class="inspiration-section">
+            <h2>What Inspire me?</h2>
+            <p>What truly inspires me are my parents. They are hardworking people who have always given me their love and support. 
+                    Seeing their dedication and sacrifices motivates me to work hard and be kind to others. 
+                    Their love reminds me to face challenges with strength and to give my best in everything I do. 
+                    Their perseverance also inspires me to pursue my passion in IT, pushing me to keep learning, improving, and using technology to create solutions that can help others.</p>
+        </div>  
+        <hr class="styled-divider1">
+
+        <div class="Education-section">
+            <h2>Education</h2>
+            <p>Jose Rizal Memorial School - Elementary<br>
+                Calamba Bayside Integrated School - High School / SHS<br>
+                City College of Calamba - 3rd Year, Present   
+            </p></div>  
+        <hr class="styled-divider1">
+
+        <div class="Philosophy-section">
+            <h2>Design Philosophy</h2>
+            <p>My design philosophy is to create with purpose, compassion, and clarity. 
+                I believe that good design should be meaningful, easy to use, and able to make a positive impact. 
+                By combining creativity with practical thinking, I strive to produce work that brings happiness, solves problems, 
+                and leads to lasting success.
+            </p></div>  
+        <hr class="styled-divider1">
+        
+        
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2025 ECHO Portfolio. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMenu = document.querySelector('.main-nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const header = document.querySelector('.main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+</body>
+</html>
